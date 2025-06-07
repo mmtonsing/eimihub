@@ -24,7 +24,7 @@ mongoose.connect(dbUrl)
     })
 
 // Routes(use or specify main routes)
-app.use('/api/blogs', blogRoutes);
+app.use('/blogs', blogRoutes);
 
 // app.get('/', (req, res) => res.send('API is running...'));
 
