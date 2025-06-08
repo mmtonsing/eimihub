@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:5000', // If you're directly calling `/blogs`
+        target: process.env.VITE_API_URL, // If you're directly calling `/blogs`
         changeOrigin: true,
         secure: false
       }

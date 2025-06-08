@@ -11,7 +11,7 @@ export default function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/register`, {
+      await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, {
         username,
         email,
         password
