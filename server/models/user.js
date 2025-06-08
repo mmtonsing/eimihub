@@ -16,8 +16,7 @@ const UserSchema = new Schema({
     }
 });
 
-UserSchema.plugin(passportLocalMongoose, {
-    usernameField: 'email' //use email for login
-});
+//user authentication prebuild
+UserSchema.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model('User', UserSchema);
