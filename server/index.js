@@ -2,6 +2,13 @@ if (process.env.NODE_ENV !== "production") {
     require('dotenv').config();
 }
 
+// Check for required environment variables early
+['SESSION_SECRET', 'DB_URL', 'CLIENT_URL'].forEach(key => {
+  if (!process.env[key]) {
+    throw new Error(`Missing required env var: ${key}`);
+  }
+});
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -9,7 +16,6 @@ const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
-
 const MongoStore = require('connect-mongo');
 
 // Connect Database
@@ -18,10 +24,8 @@ mongoose.connect(dbUrl)
     .then(() => {
         console.log("Database connected")
     })
-    .catch(err => {
-    console.log("Database connection error")
-    })
-
+  .catch(err =>
+    console.error("Database connection error:", err));
 const app = express();
 
 //middlewares
@@ -31,10 +35,24 @@ app.use(cors({
   }));
 app.use(express.json());
 
+const secret = process.env.SESSION_SECRET
+
+  const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    touchAfter: 24 * 60 * 60, //24 hrs(displayed in seconds- 60*60)
+    crypto: {
+        secret,
+    }
+});
+store.on('error', function (e) {
+    console.log('SESSION STORE ERROR', e)
+})
+
 // Session setup
 app.use(
-    session({
-      secret: process.env.SESSION_SECRET,
+  session({
+      store,
+      secret: secret,
       resave: false,
       saveUninitialized: false,
       cookie: {
@@ -45,21 +63,6 @@ app.use(
       },
     })
 );
-
-const secret = process.env.SESSION_SECRET
-
-if (process.env.NODE_ENV === 'production') {
-  const store = MongoStore.create({
-    mongoUrl: dbUrl,
-    touchAfter: 24 * 60 * 60, //updated after every 24 hrs(displayed in seconds- 60*60)
-    crypto: {
-        secret,
-    }
-});
-store.on('error', function (e) {
-    console.log('SESSION STORE ERROR', e)
-})
-}
 
 // Passport setup
 app.use(passport.initialize());
