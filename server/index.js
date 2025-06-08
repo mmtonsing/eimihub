@@ -10,6 +10,18 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 
+const MongoStore = require('connect-mongo');
+
+// Connect Database
+const dbUrl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/eimihub';
+mongoose.connect(dbUrl)
+    .then(() => {
+        console.log("Database connected")
+    })
+    .catch(err => {
+    console.log("Database connection error")
+    })
+
 const app = express();
 
 //middlewares
@@ -34,9 +46,19 @@ app.use(
     })
 );
 
+const secret = process.env.SESSION_SECRET
+
 if (process.env.NODE_ENV === 'production') {
-  const MongoStore = require('connect-mongo');
-  sessionOptions.store = MongoStore.create({ mongoUrl: process.env.DB_URL });
+  const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    touchAfter: 24 * 60 * 60, //updated after every 24 hrs(displayed in seconds- 60*60)
+    crypto: {
+        secret,
+    }
+});
+store.on('error', function (e) {
+    console.log('SESSION STORE ERROR', e)
+})
 }
 
 // Passport setup
@@ -46,16 +68,6 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate())); // from passport-local-mongoose
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
-// Connect Database
-const dbUrl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/eimihub';
-mongoose.connect(dbUrl)
-    .then(() => {
-        console.log("Database connected")
-    })
-    .catch(err => {
-    console.log("Database connection error")
-    })
 
 // Routes(use or specify main routes)
 // Routes
