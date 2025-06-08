@@ -14,7 +14,7 @@ const app = express();
 
 //middlewares
 app.use(cors({
-    origin: 'http://localhost:5173', // replace with your frontend port or domain
+    origin: process.env.CLIENT_URL, // replace with your frontend port or domain
     credentials: true
   }));
 app.use(express.json());
@@ -22,13 +22,14 @@ app.use(express.json());
 // Session setup
 app.use(
     session({
-      secret: process.env.SESSION_SECRET || 'keyboard cat',
+      secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
       cookie: {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production", // true in production
-        maxAge: 1000 * 60 * 60 * 24 * 7, // 1 day
+          sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+          maxAge: 1000 * 60 * 60 * 24 * 7, // 1 day
       },
     })
 );
