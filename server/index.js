@@ -33,7 +33,12 @@ app.use(
       },
     })
 );
-  
+
+if (process.env.NODE_ENV === 'production') {
+  const MongoStore = require('connect-mongo');
+  sessionOptions.store = MongoStore.create({ mongoUrl: process.env.DB_URL });
+}
+
 // Passport setup
 app.use(passport.initialize());
 app.use(passport.session());
