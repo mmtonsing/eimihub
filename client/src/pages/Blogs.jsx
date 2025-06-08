@@ -16,11 +16,20 @@ export default function Blogs() {
       <h1>Blogs</h1>
       {blogs.length === 0 ? <p>No blogs yet</p> :
         blogs.map(blog => {
-          const formattedDate = new Date(blog.createdAt).toLocaleDateString();
+          // const formattedDate = new Date(blog.createdAt).toLocaleDateString();
+          const createdAt = new Date(blog.createdAt);
+          const formattedDateTime = createdAt.toLocaleDateString('en-GB', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+          })
+            + ', ' +
+            createdAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
           return (
             <div key={blog._id}>
               <h3>{blog.title}</h3>
-              <p>{formattedDate}</p>
+              <p>{formattedDateTime}</p>
               <p>{blog.content}</p>
             </div>
           );
