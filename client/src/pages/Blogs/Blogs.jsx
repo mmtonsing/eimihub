@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import axios from '../api/axios';
+import axios from '../../api/axios';
+import { Link } from 'react-router-dom';
 
 export default function Blogs() {
   const [blogs, setBlogs] = useState([])
@@ -14,6 +15,7 @@ export default function Blogs() {
   return (
     <div>
       <h1>Blogs</h1>
+      <Link to="/blogs/new">ADD NEW BLOG</Link>
       {blogs.length === 0 ? <p>No blogs yet</p> :
         blogs.map(blog => {
           // const formattedDate = new Date(blog.createdAt).toLocaleDateString();
@@ -28,7 +30,7 @@ export default function Blogs() {
 
           return (
             <div key={blog._id}>
-              <h3>{blog.title}</h3>
+              <Link to={`/blogs/${blog._id}`}>{blog.title}</Link>
               <p>{formattedDateTime}</p>
               <p>{blog.content}</p>
             </div>

@@ -7,7 +7,7 @@ const BlogSchema = new Schema({
   content: String,
   blogCategory: {
     type: String,
-    enum: ['tech', 'painting', 'music', 'academic', 'business', 'sports', 'others'],
+    enum: ['tech', 'painting', 'music', 'academic', 'business', 'sports', 'art', 'others'],
     required: true
   },
   location: String,

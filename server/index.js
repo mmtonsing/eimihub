@@ -7,10 +7,12 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const app = express();
+
+//middlewares
 app.use(cors());
 app.use(express.json());
 
-//initialize & import routes directory
+//import& use routes
 const blogRoutes = require('./routes/blogs');
 
 // Connect Database
@@ -26,6 +28,8 @@ mongoose.connect(dbUrl)
 // Routes(use or specify main routes)
 app.use('/blogs', blogRoutes);
 
+// app.get('/', (req, res) => console.log('home page'));
+//default route
 // app.get('/', (req, res) => res.send('API is running...'));
 
 // Start Server

@@ -1,4 +1,3 @@
-// server/routes/posts.js
 const express = require('express');
 const router = express.Router();
 const Blog = require('../models/blog');
@@ -11,6 +10,43 @@ router.get('/', async (req, res) => {
   res.json(blogs);
 });
 
+//view into a single blog
+router.get('/:id', async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params.id);
+    if (!blog) return res.status(404).json({ error: "Blog not found" });
+    res.json(blog);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch blog" });
+  }
+});
+
+// UPDATE blog by id
+router.put('/:id', async (req, res) => {
+  try {
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true } // return updated doc & validate input
+    );
+    if (!updatedBlog) return res.status(404).json({ error: 'Blog not found' });
+    res.json(updatedBlog);
+  } catch (err) {
+    res.status(400).json({ error: 'Failed to update blog' });
+  }
+});
+
+// DELETE a blog
+router.delete('/:id', async (req, res) => {
+  try {
+    const deletedBlog = await Blog.findByIdAndDelete(req.params.id);
+    if (!deletedBlog) return res.status(404).json({ error: "Blog not found" });
+    res.json({ message: "Blog deleted successfully", blog: deletedBlog });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to delete blog" });
+  }
+});
+
 // POST a new blog
 router.post('/', async (req, res) => {
   try {
@@ -21,5 +57,7 @@ router.post('/', async (req, res) => {
     res.status(400).json({ error: 'Failed to create post' });
   }
 });
+
+
 
 module.exports = router;
