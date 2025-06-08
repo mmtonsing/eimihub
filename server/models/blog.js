@@ -1,4 +1,4 @@
-// server/models/Post.js
+// server/models/Blogs.js
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 

@@ -7,6 +7,7 @@ function App() {
 
   return (
     <div>
+      {/* keep this in different  */}
       <nav>
         <Link to="/">Home</Link> |{" "}
         <Link to="/login">Login</Link> |{" "}
