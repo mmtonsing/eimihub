@@ -11,12 +11,20 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: process.env.VITE_API_URL, // If you're directly calling `/blogs`
+        target: process.env.VITE_API_URL,
         changeOrigin: true,
-        secure: false
+        secure: false,
       },
-      // '/auth': process.env.VITE_API_URL,
-      // '/blogs': process.env.VITE_API_URL,
+      '/auth': {
+        target: process.env.VITE_API_URL,
+        changeOrigin: true,
+        secure: false,
+      },
+      '/blogs': {
+        target: process.env.VITE_API_URL,
+        changeOrigin: true,
+        secure: false,
+      },
     }
   }
-})
+});
