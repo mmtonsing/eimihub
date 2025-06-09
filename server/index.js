@@ -37,16 +37,19 @@ app.use(express.json());
 
 const secret = process.env.SESSION_SECRET
 
-  const store = MongoStore.create({
-    mongoUrl: dbUrl,
-    touchAfter: 24 * 60 * 60, //24 hrs(displayed in seconds- 60*60)
-    crypto: {
-        secret,
-    }
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  touchAfter: 24 * 60 * 60, //24 hrs(displayed in seconds- 60*60)
+  crypto: {
+    secret,
+  }
+});
+store.on('connected', function () {
+  console.log('Session store connected to MongoDB');
 });
 store.on('error', function (e) {
-    console.log('SESSION STORE ERROR', e)
-})
+  console.log('SESSION STORE ERROR', e);
+});
 
 // Session setup
 app.use(
@@ -78,6 +81,12 @@ const blogRoutes = require('./routes/blogs');
 const authRoutes = require('./routes/auth');
 app.use('/blogs', blogRoutes);
 app.use('/auth', authRoutes); // Register, login, logout
+
+// Debug current session on every request
+app.use((req, res, next) => {
+  console.log('🔍 Session:', req.session);
+  next();
+});
 
 // app.get('/', (req, res) => console.log('home page'));
 //default route

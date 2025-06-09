@@ -58,6 +58,11 @@ router.delete('/:id', async (req, res) => {
 // POST a new blog
 router.post('/', async (req, res) => {
   try {
+    if (!req.user) {
+      return res.status(401).json({ error: 'You must be logged in to create a blog' });
+    }
+    console.log('User on post request:', req.user);
+    console.log('Request body:', req.body);
     const newBlog = new Blog({
       ...req.body,
       author: req.user._id // assuming you're using authentication
