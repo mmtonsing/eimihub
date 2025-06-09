@@ -15,7 +15,7 @@ export function AuthProvider({ children }) {
       })
       .catch(() => {
         console.log("not logged in");
-        setUser(null)
+        // setUser(null)
       });
   }, []);
 
