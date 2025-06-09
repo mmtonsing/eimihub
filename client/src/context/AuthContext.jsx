@@ -8,13 +8,14 @@ export function AuthProvider({ children }) {
 
   // On mount, check if user is logged in
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_API_URL}/auth/status`, { withCredentials: true })
+    console.log("Checking auth status...");
+    axios.get('/auth/status', { withCredentials: true })
       .then(res => {
-        console.log("Logged in user:", res.data.user);
+        console.log("Auth status response:", res.data)
         setUser(res.data.user)
       })
       .catch(() => {
-        console.log("not logged in");
+        console.log("Not logged in or error:", err.response?.status, err.message);
         setUser(null)
       });
   }, []);
