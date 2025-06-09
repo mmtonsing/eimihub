@@ -13,7 +13,7 @@ export default function Login() {
     e.preventDefault()
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/login`,
+        '/auth/login',
         { username, password },
         { withCredentials: true }  //session
       );      
