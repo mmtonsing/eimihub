@@ -17,7 +17,7 @@ export default function Login() {
         { username, password },
         { withCredentials: true }  //session
       );      
-      console.log('Login success:', res.data)
+      console.log('Login success(Login.jsx):', res.data)
       setUser(res.data.user);//updates the context
       navigate('/blogs');
     } catch (err) {
