@@ -15,8 +15,8 @@ export default defineConfig({
         changeOrigin: true,
         secure: false
       },
-      '/auth': process.env.VITE_API_URL,
-      '/blogs': process.env.VITE_API_URL,
+      // '/auth': process.env.VITE_API_URL,
+      // '/blogs': process.env.VITE_API_URL,
     }
   }
 })
