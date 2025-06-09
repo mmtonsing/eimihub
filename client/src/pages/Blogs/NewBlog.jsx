@@ -25,7 +25,7 @@ export default function NewBlog() {
         navigate(`/blogs/${res.data._id}`);
     } catch (error) {
       alert('Failed to create blog');
-      console.log(error);
+      console.log("You are not logged in",error);
     }
   };
 

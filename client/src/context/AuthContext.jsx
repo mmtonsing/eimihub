@@ -9,8 +9,14 @@ export function AuthProvider({ children }) {
   // On mount, check if user is logged in
   useEffect(() => {
     axios.get('/auth/status', { withCredentials: true })
-      .then(res => setUser(res.data.user))
-      .catch(() => setUser(null));
+      .then(res => {
+        console.log("Logged in user:", res.data.user);
+        setUser(res.data.user)
+      })
+      .catch(() => {
+        console.log("not logged in");
+        setUser(null)
+      });
   }, []);
 
   const isLoggedIn = !!user;
