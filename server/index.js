@@ -44,7 +44,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.json());
-const secret = process.env.SESSION_SECRET
+const secret = process.env.SESSION_SECRET || 'iamnotaSegarete';
 
 const store = MongoStore.create({
   mongoUrl: dbUrl,
@@ -63,10 +63,11 @@ store.on('error', function (e) {
 // Session setup
 app.use(
   session({
-      store,
-      secret: secret,
+    store,
+    name:'session',
+      secret: 'iamaboygirlboy',
       resave: false,
-      saveUninitialized: false,
+      saveUninitialized: true,
     cookie: {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production", // true in production
