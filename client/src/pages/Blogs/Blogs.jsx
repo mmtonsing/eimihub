@@ -24,6 +24,12 @@ export default function Blogs() {
           </p>
         </div>
 
+        <div className="blogs-post-button-wrapper">
+          <Link
+            to="/blogs/new" className="blogs-post-button"> + Post a Blog
+          </Link>
+        </div>
+
         {/* Blog Grid */}
         {blogs.length === 0 ? (
           <p className="blogs-empty-message">No blogs yet. Be the first to post!</p>

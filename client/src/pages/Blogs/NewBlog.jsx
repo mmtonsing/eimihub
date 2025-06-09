@@ -10,13 +10,16 @@ export default function NewBlog() {
     
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const res = await axios.post(`${import.meta.env.VITE_API_URL}/blogs`, {
         title,
         content,
         blogCategory,
-      });
+      },
+      {
+        withCredentials: true
+        }
+      );
         alert('Blog created successfully!');
         // redirect or clear form here
         navigate(`/blogs/${res.data._id}`);

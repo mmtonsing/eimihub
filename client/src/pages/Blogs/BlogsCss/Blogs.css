@@ -58,6 +58,7 @@
   
   .blogs-subtitle {
     margin-top: 0.5rem; /* mt-2 */
+    margin-bottom: 1.5rem;
     font-size: 1.125rem; /* text-lg */
     line-height: 2rem; /* leading-8 */
     color: #4b5563; /* gray-600 */
@@ -198,3 +199,22 @@
     margin: 0;
   }
   
+  /* post */
+  .blog-article.blogs-post-button-wrapper {
+    text-align: right;
+    margin-bottom: 1rem;
+  }
+  
+  .blogs-post-button {
+    background-color: #4f46e5; /* Indigo-600 */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+  
+  .blogs-post-button:hover {
+    background-color: #4338ca; /* Indigo-700 */
+  }
