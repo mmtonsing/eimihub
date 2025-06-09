@@ -9,15 +9,15 @@ export default function Navbar() {
   const { user, setUser } = useContext(AuthContext);
   const isLoggedIn = !!user;
 
-  useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_API_URL}/auth/status`, { withCredentials: true })
-      .then((res) => {
-        setUser(res.data.user);
-        console.log("Logged in user:", res.data.user); // ✅ Safe logging
-      })
-      .catch(() => setUser(null));
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get(`${import.meta.env.VITE_API_URL}/auth/status`, { withCredentials: true })
+  //     .then((res) => {
+  //       setUser(res.data.user);
+  //       console.log("Logged in user:", res.data.user); // ✅ Safe logging
+  //     })
+  //     .catch(() => setUser(null));
+  // }, []);
 
   // if (isHomePage) return null; // hide on home
 
