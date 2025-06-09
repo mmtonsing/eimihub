@@ -26,15 +26,24 @@ mongoose.connect(dbUrl)
     })
   .catch(err =>
     console.error("Database connection error:", err));
+
 const app = express();
+
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+}
 
 //middlewares
 app.use(cors({
     origin: process.env.CLIENT_URL, // replace with your frontend port or domain
     credentials: true
-  }));
+}));
+  
+app.use((req, res, next) => {
+  console.log(`Incoming request: ${req.method} ${req.url}`);
+  next();
+});
 app.use(express.json());
-
 const secret = process.env.SESSION_SECRET
 
 const store = MongoStore.create({
@@ -58,7 +67,7 @@ app.use(
       secret: secret,
       resave: false,
       saveUninitialized: false,
-      cookie: {
+    cookie: {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production", // true in production
           sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
@@ -66,6 +75,8 @@ app.use(
       },
     })
 );
+
+
 
 // Passport setup
 app.use(passport.initialize());

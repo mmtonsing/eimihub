@@ -21,9 +21,20 @@ router.post('/register', async (req, res) => {
 });
 
 // Login route
-router.post('/login', passport.authenticate('local'), (req, res) => {
-  res.json({ message: "Logged in", user: req.user });
+router.post('/login', (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) return next(err);
+    if (!user) return res.status(401).json({ message: 'Invalid credentials' });
+
+    req.logIn(user, (err) => {
+      if (err) return next(err);
+
+      // Now the session is established and cookie can be sent
+      res.json({ message: "Logged in(backend)", user: req.user });
+    });
+  })(req, res, next);
 });
+
 
 // LOGOUT ROUTE
 router.post('/logout', (req, res) => {
@@ -39,8 +50,10 @@ router.post('/logout', (req, res) => {
 // check if user is logged in
 router.get("/status", (req, res) => {
   if (req.isAuthenticated()) {
+    console.log("authenticated by route/auth.js");
     res.json({ loggedIn: true, user: req.user });
   } else {
+    console.log("not authenticated by route/auth.js");
     res.status(401).json({ loggedIn: false });
   }
 });
