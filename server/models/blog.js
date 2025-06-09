@@ -7,7 +7,12 @@ const BlogSchema = new Schema({
   content: String,
   blogCategory: {
     type: String,
-    enum: ['tech', 'painting', 'music', 'academic', 'business', 'sports', 'art', 'others'],
+    enum: ['tech', 'painting', 'author', 'music', 'academic', 'business', 'sports', 'art', 'others'],
+    required: true
+  },
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
     required: true
   },
   location: String,

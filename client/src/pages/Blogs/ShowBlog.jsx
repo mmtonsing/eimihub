@@ -32,10 +32,11 @@ const handleDelete = async () => {
     if (!blog) return <p>Loading...</p>;
 
     return (
-        <div>
-            <h1>{blog.title}</h1>
-            <h2>Categoty: {blog.blogCategory}</h2>
-            <p>{blog.content}</p>
+      <div>
+        <h1>{blog.title}</h1>
+        <p>{blog.author}</p>
+        <h2>Categoty: {blog.blogCategory}</h2>
+        <p>{blog.content}</p>
 
             <Link to={`/blogs/${blog._id}/edit`}>
                 <button>Edit</button>

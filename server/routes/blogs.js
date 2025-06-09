@@ -4,10 +4,18 @@ const Blog = require('../models/blog');
 
 // GET all blogs (or filtered by category)
 router.get('/', async (req, res) => {
-  const { category } = req.query;
-  const filter = category ? { blogCategory: category } : {};
-  const blogs = await Blog.find(filter);
-  res.json(blogs);
+  try {
+    const { category } = req.query;
+    const filter = category ? { blogCategory: category } : {};
+
+    const blogs = await Blog.find(filter)
+    .populate('author', 'username') // makes blog.author.username available
+      .sort({ createdAt: -1 });             // latest first
+
+    res.json(blogs);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 //view into a single blog
@@ -50,7 +58,11 @@ router.delete('/:id', async (req, res) => {
 // POST a new blog
 router.post('/', async (req, res) => {
   try {
-    const newBlog = new Blog(req.body);
+    const newBlog = new Blog({
+      ...req.body,
+      author: req.user._id // assuming you're using authentication
+    });
+
     const saved = await newBlog.save();
     res.status(201).json(saved);
   } catch (err) {

@@ -17,7 +17,7 @@ export default function Register() {
         password
       }, { withCredentials: true });
       alert('Registered successfully!');
-      navigate('/login');
+      navigate('/');
     } catch (err) {
       console.error(err);
       alert(err.response?.data?.error || 'Registration failed');
