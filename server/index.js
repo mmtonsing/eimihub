@@ -166,7 +166,7 @@ store.on("error", e => console.log("❌ Session store error", e));
 // Session config
 const sessionConfig = {
   store,
-  name: 'session',
+  name: 'connect.sid',
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
