@@ -172,8 +172,8 @@ const sessionConfig = {
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // ⬅️ Send only on HTTPS in prod
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // ⬅️ Important for cross-site cookie in prod
+    secure: process.env.NODE_ENV === 'production', // ⬅️ Send only on HTTPS in prod
+    sameSite: process.env.NODE_ENV === 'production' ? "none" : "lax", // ⬅️ Important for cross-site cookie in prod
     maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
   }
 };

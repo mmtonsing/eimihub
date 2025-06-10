@@ -1,7 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import LogoutButton from "../pages/users/LogoutButton";
 import { useContext, useEffect } from "react";
-import axios from "../api/axios";
 import { AuthContext } from "../context/AuthContext";
 
 export default function Navbar() {

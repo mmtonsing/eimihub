@@ -15,7 +15,7 @@ export default function Login() {
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/auth/login`,
         { username, password },
-        { withCredentials: true }  //session
+        { withCredentials: true }  //session true
       );      
       console.log("Login success(Login.jsx):", res.data);
       setUser(res.data.user);//updates the context

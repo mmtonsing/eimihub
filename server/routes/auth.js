@@ -52,6 +52,7 @@ router.get("/status", (req, res) => {
   if (req.isAuthenticated()) {
     console.log("authenticated by route/auth.js");
     res.json({ loggedIn: true, user: req.user });
+    next();
   } else {
     console.log("not authenticated by route/auth.js");
     res.status(401).json({ loggedIn: false });

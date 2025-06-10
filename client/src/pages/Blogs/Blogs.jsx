@@ -8,7 +8,9 @@ export default function Blogs() {
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_API_URL}/blogs`)
+    axios.get(`${import.meta.env.VITE_API_URL}/blogs`, {
+      withCredentials: true
+    })
       .then(res => setBlogs(res.data))
       .catch(err => console.error(err));
   }, []);
