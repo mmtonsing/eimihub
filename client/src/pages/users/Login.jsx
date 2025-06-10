@@ -18,12 +18,22 @@ export default function Login() {
         { withCredentials: true }  //session true
       );      
       console.log("Login success(Login.jsx):", res.data);
-      setUser(res.data.user);//updates the context
+
+      const res2 = await axios.get(
+        `${import.meta.env.VITE_API_URL}/auth/status`,
+        { withCredentials: true }
+      );
+      console.log("Session status (after login):", res2.data);
+
+      // setUser(res.data.user);//updates the context
+      setUser(res2.data.user); // safer than res.data.user
       navigate('/blogs');
     } catch (err) {
       console.error('Login failed', err)
       alert('Invalid credentials');
     }
+
+    
   }
 
   return (
