@@ -127,7 +127,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const session = require("express-session");
-const MongoStore = require("connect-mongo");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user");
@@ -138,18 +137,23 @@ const app = express();
 if (process.env.NODE_ENV === "production") {
   app.set("trust proxy", 1);
 }
+const authRoutes = require('./routes/auth');
+const blogRoutes = require('./routes/blogs');
+
+// CORS with credentials
+app.use(cors({
+  // origin: 'https://eimihub.vercel.app',
+  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  credentials: true,
+}));
+console.log('cors working');
 
 // MongoDB connection
+const MongoStore = require("connect-mongo");
 const dbUrl = process.env.DB_URL;
 mongoose.connect(dbUrl)
   .then(() => console.log("✅ Database connected"))
   .catch((err) => console.error("❌ DB Error:", err));
-
-// CORS with credentials
-app.use(cors({
-  origin: process.env.CLIENT_URL,
-  credentials: true,
-}));
 
 // Basic middleware
 app.use(express.json());
@@ -166,7 +170,7 @@ store.on("error", e => console.log("❌ Session store error", e));
 // Session config
 const sessionConfig = {
   store,
-  name: 'connect.sid',
+  name: 'session',
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
@@ -196,8 +200,6 @@ app.use((req, res, next) => {
 });
 
 // Routes
-const authRoutes = require('./routes/auth');
-const blogRoutes = require('./routes/blogs');
 app.use('/auth', authRoutes);
 app.use('/blogs', blogRoutes);
 

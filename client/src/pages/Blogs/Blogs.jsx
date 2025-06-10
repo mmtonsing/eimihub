@@ -12,7 +12,7 @@ export default function Blogs() {
       withCredentials: true
     })
       .then(res => setBlogs(res.data))
-      .catch(err => console.error(err));
+      .catch(err => console.error('error fetching blogs',err));
   }, []);
 
   return (

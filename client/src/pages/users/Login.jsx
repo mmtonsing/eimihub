@@ -1,13 +1,11 @@
 import { useState, useContext } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { setUser } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -27,7 +25,6 @@ export default function Login() {
 
       // setUser(res.data.user);//updates the context
       setUser(res2.data.user); // safer than res.data.user
-      navigate('/blogs');
     } catch (err) {
       console.error('Login failed', err)
       alert('Invalid credentials');

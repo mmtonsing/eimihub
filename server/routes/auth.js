@@ -35,6 +35,16 @@ router.post('/login', (req, res, next) => {
   })(req, res, next);
 });
 
+// check if user is logged in
+router.get("/status", (req, res) => {
+  if (req.isAuthenticated()) {
+    console.log("authenticated by route/auth.js");
+    res.json({ loggedIn: true, user: req.user });
+  } else {
+    console.log("not authenticated by route/auth.js");
+    res.status(401).json({ loggedIn: false });
+  }
+});
 
 // LOGOUT ROUTE
 router.post('/logout', (req, res) => {
@@ -45,17 +55,6 @@ router.post('/logout', (req, res) => {
       res.json({ message: 'Logged out successfully' });
     });
   });
-});
-
-// check if user is logged in
-router.get("/status", (req, res) => {
-  if (req.isAuthenticated()) {
-    console.log("authenticated by route/auth.js");
-    res.json({ loggedIn: true, user: req.user });
-  } else {
-    console.log("not authenticated by route/auth.js");
-    res.status(401).json({ loggedIn: false });
-  }
 });
 
 module.exports = router;
